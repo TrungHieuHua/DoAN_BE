@@ -8,8 +8,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 @EnableJpaAuditing
-public class ShoseShopApplication {
+public class ShopApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(ShoseShopApplication.class, args);
+		SpringApplication.run(ShopApplication.class, args);
 	}
 }
