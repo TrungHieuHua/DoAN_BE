@@ -44,7 +44,7 @@ public class EmailService {
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(body, true);
-            helper.setFrom("vhai31102002@gmail.com");
+            helper.setFrom("huaphan8@gmail.com");
             javaMailSender.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();
@@ -53,7 +53,7 @@ public class EmailService {
 
     public void sendNewVoucherEmail(VoucherRequest request, Set<String> emails) {
         String subject = "Thông báo khuyến mãi mới từ Shose Shop!";
-        String description = "Giảm " + request.getValue() + " tối đa " + formatCurrency(request.getMaxMoney());
+        String description = "Giảm " + request.getValue() + "% " + " tối đa " + formatCurrency(request.getMaxMoney());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String formattedDate = request.getExpiredTime().toInstant()
                 .atZone(ZoneId.systemDefault())
@@ -70,7 +70,7 @@ public class EmailService {
             helper.setTo(emails.toArray(new String[0]));
             helper.setSubject(subject);
             helper.setText(body, true);
-            helper.setFrom("vhai31102002@gmail.com");
+            helper.setFrom("huaphan8@gmail.com");
             javaMailSender.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();
@@ -88,7 +88,7 @@ public class EmailService {
             helper.setTo(emails.toArray(new String[0]));
             helper.setSubject(subject);
             helper.setText(body, true);
-            helper.setFrom("vhai31102002@gmail.com");
+            helper.setFrom("huaphan8@gmail.com");
             javaMailSender.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();
@@ -106,7 +106,7 @@ public class EmailService {
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(body, true);
-            helper.setFrom("vhai31102002@gmail.com");
+            helper.setFrom("huaphan8@gmail.com");
 
             javaMailSender.send(message);
         } catch (MessagingException e) {
@@ -148,7 +148,7 @@ public class EmailService {
         helper.setTo(to);
         helper.setSubject(subject);
         helper.setText(body, true);
-        helper.setFrom("vhai31102002@gmail.com");
+        helper.setFrom("huaphan8@gmail.com");
         helper.addAttachment("HoaDon.pdf", new ByteArrayResource(pdfInvoice));
         javaMailSender.send(message);
     }
@@ -252,11 +252,11 @@ public class EmailService {
                     centerX, startY - lineSpacing, 0);
 
             ColumnText.showTextAligned(canvas, Element.ALIGN_CENTER,
-                    new Phrase("Số điện thoại: 0382952063", font),
+                    new Phrase("Số điện thoại: 0392313572", font),
                     centerX, startY - 2 * lineSpacing, 0);
 
             ColumnText.showTextAligned(canvas, Element.ALIGN_CENTER,
-                    new Phrase("Địa chỉ: Số 88-Cầu Diễn - Bắc Từ Liêm - Hà Nội", font),
+                    new Phrase("Địa chỉ: Số 141 - Chiến Thắng - Văn Quán - Hà Đông - Hà Nội", font),
                     centerX, startY - 3 * lineSpacing, 0);
 
             document.close();
