@@ -1,13 +1,12 @@
 package com.shose.shoseshop.service.impl;
 
-import com.shose.shoseshop.configuration.CustomUserDetails;
-import com.shose.shoseshop.controller.request.ProductDetailRequest;
 import com.shose.shoseshop.controller.response.CartResponse;
 import com.shose.shoseshop.entity.*;
 import com.shose.shoseshop.repository.*;
 import com.shose.shoseshop.service.CartService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
@@ -69,6 +69,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public CartResponse getCart() {
         UserDetails loginUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        log.info("Login user: {}", loginUser);
         User user = userRepository.findByUsername(loginUser.getUsername()).orElseThrow(EntityNotFoundException::new);
         Cart cart = cartRepository.findByUser_Id(user.getId()).orElseThrow(EntityNotFoundException::new);
         return new ModelMapper().map(cart, CartResponse.class);
