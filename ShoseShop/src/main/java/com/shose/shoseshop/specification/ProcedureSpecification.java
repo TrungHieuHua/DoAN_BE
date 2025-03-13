@@ -16,7 +16,7 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.Date;
 
 public class ProcedureSpecification {
-    private static Specification<Procedure> hasFullname(String name) {
+    private static Specification<Procedure> hasFullName(String name) {
         return (Root<Procedure> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
             Path<String> fullNamePath = root.get(Procedure_.NAME);
             return cb.like(fullNamePath, StringUtil.toLike(name));
@@ -39,10 +39,10 @@ public class ProcedureSpecification {
     }
 
     public static Specification<Procedure> generateFilter(OrderFilterRequest request) {
-        Specification<Procedure> specification = Specification.where(null);
+        Specification<Procedure> specification = Specification.where((root, query, cb) -> cb.conjunction());
         if (request == null) return specification;
         if (request.getName() != null) {
-            specification = specification.and(hasFullname(request.getName()));
+            specification = specification.and(hasFullName(request.getName()));
         }
         if (request.getDateFrom() != null) {
             specification = specification.and((hasDateFrom(request.getDateFrom())));

@@ -56,7 +56,7 @@ public class ProductSpecification {
     }
 
     public static Specification<Product> generateFilterProducts(ProductFilterRequest request) {
-        Specification<Product> specification = Specification.where(null);
+        Specification<Product> specification = Specification.where((root, query, cb) -> cb.conjunction());
         if (request == null) return specification;
         if (request.getProcedureIds() != null && !request.getProcedureIds().isEmpty()) {
             specification = specification.and(hasProcedureIdIn(request.getProcedureIds()));

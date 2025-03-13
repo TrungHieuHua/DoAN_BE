@@ -34,7 +34,7 @@ public class UserSpecification {
     }
 
     public static Specification<User> generateFilter(UserFilterRequest request) {
-        Specification<User> specification = Specification.where(null);
+        Specification<User> specification = Specification.where((root, query, cb) -> cb.conjunction());
         if (request == null) return specification;
         if (request.getEmail() != null) {
             specification = specification.and((hasUserName(request.getEmail()))).or(hasEmail(request.getEmail()));
