@@ -3,12 +3,14 @@ package com.shose.shoseshop.service.impl;
 import com.shose.shoseshop.constant.Role;
 import com.shose.shoseshop.controller.request.ProductFilterRequest;
 import com.shose.shoseshop.controller.request.ProductRequest;
+import com.shose.shoseshop.controller.response.ProductDetailResponse;
 import com.shose.shoseshop.controller.response.ProductResponse;
 import com.shose.shoseshop.entity.*;
 import com.shose.shoseshop.repository.CategoryRepository;
 import com.shose.shoseshop.repository.ProcedureRepository;
 import com.shose.shoseshop.repository.ProductDetailRepository;
 import com.shose.shoseshop.repository.ProductRepository;
+import com.shose.shoseshop.service.ProductDetailService;
 import com.shose.shoseshop.service.ProductService;
 import com.shose.shoseshop.specification.ProductSpecification;
 import jakarta.persistence.EntityNotFoundException;
@@ -34,6 +36,7 @@ public class ProductServiceImpl implements ProductService {
     CategoryRepository categoryRepository;
     ModelMapper modelMapper;
     ProductDetailRepository productDetailRepository;
+    ProductDetailService productDetailService;
     @Override
     @Transactional
     public void create(ProductRequest productRequest) {
@@ -63,10 +66,7 @@ public class ProductServiceImpl implements ProductService {
         if (request != null && request.getRole() != null && request.getRole() == Role.USER) {
             productPage = productPage.map(product -> {
                 product.setProductDetailResponseList(
-                        product.getProductDetailResponseList()
-                                .stream()
-                                .filter(productDetail -> !productDetail.getIsDeleted())
-                                .toList()
+                        productDetailService.getByProductId(product.getId()).stream().map(productDetailResponse -> new ModelMapper().map(productDetailResponse, ProductDetail.class)).collect(Collectors.toList())
                 );
                 return product;
             });

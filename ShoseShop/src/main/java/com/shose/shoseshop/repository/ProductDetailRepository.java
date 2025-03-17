@@ -9,4 +9,6 @@ import java.util.List;
 public interface ProductDetailRepository extends JpaRepository<ProductDetail, Long>, JpaSpecificationExecutor<ProductDetail> {
 
     List<ProductDetail> findAllByProductId(Long productId);
+
+    List<ProductDetail> findAllByProductIdAndIsDeletedIsFalse(Long productId);
 }

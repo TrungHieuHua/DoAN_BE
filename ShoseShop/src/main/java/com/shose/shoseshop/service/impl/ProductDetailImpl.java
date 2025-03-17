@@ -37,7 +37,7 @@ public class ProductDetailImpl implements ProductDetailService {
 
     @Override
     public List<ProductDetailResponse> getByProductId(Long productId) {
-        List<ProductDetail> productDetails = productDetailRepository.findAllByProductId(productId);
+        List<ProductDetail> productDetails = productDetailRepository.findAllByProductIdAndIsDeletedIsFalse(productId);
         return productDetails.stream()
                 .map(productDetail -> new ModelMapper().map(productDetail, ProductDetailResponse.class))
                 .collect(Collectors.toList());
