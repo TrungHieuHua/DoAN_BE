@@ -1,7 +1,10 @@
 package com.shose.shoseshop.controller.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 
@@ -41,11 +44,19 @@ public class ResponseData<T> {
         this.data = data;
     }
 
+    public ResponseData(String message, T data) {
+        this.statusCode = HttpStatus.OK.value();
+        this.message = message;
+        this.data = data;
+    }
+
     public ResponseData(HttpStatus statusCode, String message, T data) {
         this.statusCode = statusCode.value();
         this.message = message;
         this.data = data;
     }
+
+
 
     public ResponseData(T data) {
         this.statusCode = HttpStatus.OK.value();

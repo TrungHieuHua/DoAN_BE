@@ -22,6 +22,8 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
 
     Optional<User> findByEmail(String email);
 
+    @Query("SELECT u FROM User u where u.role = :roleName")
+    List<User> findByRoleName(@Param("roleName") String roleName);
 
     User findByUsernameOrEmail(String username, String email);
 
