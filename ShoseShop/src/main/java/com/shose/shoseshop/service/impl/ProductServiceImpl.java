@@ -63,14 +63,15 @@ public class ProductServiceImpl implements ProductService {
     public Page<ProductResponse> listProduct(Pageable pageable, ProductFilterRequest request) {
         Specification<Product> specUser = ProductSpecification.generateFilterProducts(request);
         Page<Product> productPage = productRepository.findAll(specUser, pageable);
-        if (request != null && request.getRole() != null && request.getRole() == Role.USER) {
+       // if (request != null && request.getRole() != null && request.getRole() == Role.USER) {
             productPage = productPage.map(product -> {
                 product.setProductDetailResponseList(
-                        productDetailService.getByProductId(product.getId()).stream().map(productDetailResponse -> new ModelMapper().map(productDetailResponse, ProductDetail.class)).collect(Collectors.toList())
+                        product.getProductDetailResponseList().stream().filter(productDetail -> !productDetail.getIsDeleted())
+                                .collect(Collectors.toList())
                 );
                 return product;
             });
-        }
+       // }
         return productPage.map(product -> modelMapper.map(product, ProductResponse.class));
     }
 
@@ -99,5 +100,13 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponse getById(Long id) {
         Product product = productRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         return modelMapper.map(product, ProductResponse.class);
+    }
+
+    @Override
+    public void updateStatus(Long id) {
+        Product product = productRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        product.setIsDeleted(false);
+        productRepository.save(product);
+
     }
 }

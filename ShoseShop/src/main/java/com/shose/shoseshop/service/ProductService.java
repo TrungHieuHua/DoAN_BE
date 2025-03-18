@@ -20,4 +20,6 @@ public interface ProductService {
     void update(ProductRequest productRequest);
 
     ProductResponse getById(Long id);
+
+    void updateStatus(Long id);
 }

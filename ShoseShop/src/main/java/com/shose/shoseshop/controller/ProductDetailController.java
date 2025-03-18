@@ -26,7 +26,7 @@ public class ProductDetailController {
     @PostMapping
     public ResponseData<String> create(@RequestBody ProductDetailRequest productDetailRequest) {
         productDetailService.create(productDetailRequest);
-        return new ResponseData<>(HttpStatus.CREATED, "Thêm chi tiết cho sản pẩm thành công!");
+        return new ResponseData<>(HttpStatus.CREATED, "Thêm chi tiết cho sản phẩm thành công!");
     }
 
     @PutMapping
@@ -44,5 +44,10 @@ public class ProductDetailController {
     @GetMapping("/{id}")
     public ResponseData<ProductDetailResponse> getById(@PathVariable Long id) {
         return new ResponseData<>(productDetailService.getById(id));
+    }
+    @PutMapping("/status")
+    public ResponseData<String> updateStatus(@RequestBody ProductDetailRequest productDetailRequest) {
+        productDetailService.updateStatus(productDetailRequest);
+        return new ResponseData<>(HttpStatus.CREATED, "Khôi phục chi tiết sản phẩm thành công!");
     }
 }

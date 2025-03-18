@@ -55,6 +55,8 @@ public class ProductSpecification {
                 -> cb.lessThanOrEqualTo(root.get(Product_.PRICE_RANGE), priceLower);
     }
 
+
+
     public static Specification<Product> generateFilterProducts(ProductFilterRequest request) {
         Specification<Product> specification = Specification.where((root, query, cb) -> cb.conjunction());
         if (request == null) return specification;

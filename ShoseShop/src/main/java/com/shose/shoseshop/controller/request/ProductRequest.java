@@ -21,6 +21,7 @@ public class ProductRequest {
     private String description;
     private BigDecimal priceRange;
     private String img;
+    private boolean isDelete;
 
     @JsonIgnore
     private MultipartFile file;

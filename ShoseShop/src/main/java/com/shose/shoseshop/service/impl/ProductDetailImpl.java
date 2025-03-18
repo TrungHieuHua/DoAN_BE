@@ -66,4 +66,11 @@ public class ProductDetailImpl implements ProductDetailService {
         ProductDetail productDetail = productDetailRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         return modelMapper.map(productDetail, ProductDetailResponse.class);
     }
+
+    @Override
+    public void updateStatus(ProductDetailRequest productDetailRequest) {
+        ProductDetail productDetail = productDetailRepository.findById(productDetailRequest.getId()).orElseThrow(EntityNotFoundException::new);
+        productDetail.setIsDeleted(false);
+        productDetailRepository.save(productDetail);
+    }
 }

@@ -42,7 +42,7 @@ public class BaseEntity implements Serializable {
     private Instant lastModifiedAt = Instant.now();
 
     @Column(name = "is_deleted")
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     public void markAsDelete() {
         this.isDeleted = true;

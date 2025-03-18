@@ -16,4 +16,6 @@ public interface ProductDetailService {
     void delete(Long id);
 
     ProductDetailResponse getById(Long id);
+
+    void updateStatus(ProductDetailRequest productDetailRequest);
 }

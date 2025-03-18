@@ -58,5 +58,11 @@ public class ProductController {
     public ResponseData<ProductResponse> getById(@PathVariable Long id) {
         return new ResponseData<>(productService.getById(id));
     }
+
+    @PutMapping("/status")
+    public ResponseData<Void> updateStatus(@RequestBody ProductRequest productRequest) {
+        productService.updateStatus(productRequest.getId());
+        return new ResponseData<>(HttpStatus.CREATED, "Khôi phục sản phẩm thành công!");
+    }
 }
 
