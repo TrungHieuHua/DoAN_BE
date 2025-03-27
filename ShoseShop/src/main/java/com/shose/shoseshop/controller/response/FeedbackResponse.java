@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Data
@@ -12,9 +13,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class FeedbackResponse {
     private Long id;
-    private String comment;
-    private int rating;
-    private LocalDateTime createdAt;
+    private String description;
+    private int rate;
+    private Instant createdAt;
     private UserResponse user;
     private ProductResponse product;
 }

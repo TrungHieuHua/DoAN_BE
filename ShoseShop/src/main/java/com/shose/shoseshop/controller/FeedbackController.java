@@ -32,8 +32,8 @@ public class FeedbackController {
     @GetMapping("/product/{productId}")
     public ResponseData<Page<FeedbackResponse>> getReviewByProductId(@PathVariable  Long productId
             , @RequestParam(value = "pageNum", defaultValue = "0") int pageNum
-            , @RequestParam(value = "pageSize", defaultValue = "5") int pageSize
-            , @RequestParam(value = "sortDir", defaultValue = "asc") String sortDir
+            , @RequestParam(value = "pageSize", defaultValue = "10") int pageSize
+            , @RequestParam(value = "sortDir", defaultValue = "desc") String sortDir
             , @RequestParam(value = "sortBy", defaultValue = "createdAt") String sortBy){
         Pageable pageable = PaginationSortingUtils.getPageable(pageNum, pageSize, sortDir, sortBy);
 

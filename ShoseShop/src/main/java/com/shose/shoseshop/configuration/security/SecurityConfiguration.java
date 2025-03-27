@@ -40,6 +40,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/api/v1/users").permitAll()
                 .requestMatchers("/api/v1/products").permitAll()
                 .requestMatchers("/api/v1/payments").permitAll()
+                    .requestMatchers("/api/v1/feedbacks").permitAll()
                 .requestMatchers("/api/**").permitAll()
             )
             .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)

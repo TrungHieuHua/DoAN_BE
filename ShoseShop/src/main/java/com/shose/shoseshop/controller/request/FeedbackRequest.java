@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class FeedbackRequest {
 
     private Long id;
-    private String comment;
+    private String description;
     private int rating;
     private Long userId;
     private Long productId;
