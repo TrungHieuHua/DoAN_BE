@@ -1,4 +1,5 @@
 package com.shose.shoseshop.repository;
+import com.shose.shoseshop.constant.Role;
 import com.shose.shoseshop.entity.User;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,7 +24,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     Optional<User> findByEmail(String email);
 
     @Query("SELECT u FROM User u where u.role = :roleName")
-    List<User> findByRoleName(@Param("roleName") String roleName);
+    List<User> findByRole(@Param("roleName") Role roleName);
 
     User findByUsernameOrEmail(String username, String email);
 

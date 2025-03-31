@@ -12,12 +12,14 @@ import com.shose.shoseshop.entity.*;
 import com.shose.shoseshop.repository.*;
 import com.shose.shoseshop.service.CartService;
 import com.shose.shoseshop.service.EmailService;
+import com.shose.shoseshop.service.NotificationService;
 import com.shose.shoseshop.service.OrderService;
 import com.shose.shoseshop.specification.OrderSpecification;
 import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +34,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
+@Slf4j
 @FieldDefaults(makeFinal = true)
 public class OrderServiceImpl implements OrderService {
     OrderRepository orderRepository;
@@ -43,11 +46,13 @@ public class OrderServiceImpl implements OrderService {
     ModelMapper modelMapper;
     EmailService emailService;
     ProductDetailRepository productDetailRepository;
+    NotificationService notificationService;
 
     @Override
     @Transactional
     public Long create(OrderRequest orderRequest) {
         User user = getUserFromContext();
+        log.info(String.valueOf(user.getRole()));
         Order order = createOrderFromRequest(orderRequest, user);
         List<CartDetail> cartDetails = getCartDetails(orderRequest.getCartDetailIds());
         List<OrderDetail> orderDetails = mapCartDetailsToOrderDetails(cartDetails, order);
@@ -56,6 +61,9 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(OrderStatus.PENDING);
         order.setPaymentStatus(PaymentStatus.WAITING);
         Long id = saveOrderAndDetailsAndCartDetails(order, orderDetails, cartDetails, orderRequest.getCartDetailIds());
+        String title = "Đơn hàng mới";
+        String message = "Bạn có đơn hàng mới: " + order.getId() + " vui lòng kiểm tra đơn hàng!";
+        notificationService.sendOrderNotification(order, title, message);
         try {
             order.setOrderDetails(orderDetails);
             emailService.sendInvoiceWithAttachment(user.getEmail(), order);
@@ -151,6 +159,9 @@ public class OrderServiceImpl implements OrderService {
         }
         order.setStatus(newStatus);
         order.setPaymentStatus(paymentStatus);
+        String title = "Trạng thái đơn hàng được cập nhật";
+        String message = "Trạng thái đơn hàng : " + newStatus.getValue();
+        notificationService.sendNotificationToUser(order,title,message);
         orderRepository.save(order);
     }
 
@@ -173,7 +184,6 @@ public class OrderServiceImpl implements OrderService {
         Page<Order> orderPage = orderRepository.findAll(spec, pageable);
         Map<Long, String> productNameByProductDetailId = productDetailRepository.findAll()
                 .stream().collect(Collectors.toMap(ProductDetail::getId, productDetail -> productDetail.getProduct().getName()));
-
         return orderPage.map(order -> {
             OrderResponse orderResponse = modelMapper.map(order, OrderResponse.class);
             orderResponse.getOrderDetails().forEach(orderDetail -> {

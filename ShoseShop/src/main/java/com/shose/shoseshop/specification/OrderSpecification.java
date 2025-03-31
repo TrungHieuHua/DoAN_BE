@@ -39,7 +39,7 @@ public class OrderSpecification {
     }
 
     public static Specification<Order> generateFilter(OrderFilterRequest request) {
-        Specification<Order> specification = Specification.where((root, query, cb) -> cb.conjunction());
+        Specification<Order> specification = Specification.where(null);
         if (request == null) return specification;
         if (request.getFullName() != null) {
             specification = specification.and(hasFullName(request.getFullName()));

@@ -1,7 +1,9 @@
 package com.shose.shoseshop.service;
 
+import com.cloudinary.provisioning.Account;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shose.shoseshop.constant.NotificationType;
+import com.shose.shoseshop.constant.Role;
 import com.shose.shoseshop.controller.response.NotificationResponse;
 import com.shose.shoseshop.entity.Notification;
 import com.shose.shoseshop.entity.Order;
@@ -39,7 +41,7 @@ public class NotificationService {
     @Transactional
     public void sendOrderNotification(Order order, String title, String message) {
         String destination = "/topic/admin/notification";
-        List<User> users = userRepository.findByRoleName("ADMIN");
+        List<User> users = userRepository.findByRole(Role.ADMIN);
         for (User user : users) {
             Notification notification = new Notification();
             notification.setUser(user);
@@ -57,7 +59,7 @@ public class NotificationService {
     @Transactional
     public void sendPaymentNotification(Order order, Long paymentId, String title, String message) {
         String destination = "/topic/admin/notification";
-        List<User> users = userRepository.findByRoleName("ADMIN");
+        List<User> users = userRepository.findByRole(Role.ADMIN);
         for (User user : users) {
             Notification notification = new Notification();
             notification.setUser(user);

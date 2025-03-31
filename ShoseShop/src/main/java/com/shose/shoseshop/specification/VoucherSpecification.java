@@ -18,7 +18,7 @@ public class VoucherSpecification {
 
     private static Specification<Voucher> hasDateFrom(Date dateFrom) {
         return (root, query, cb) -> {
-            if (StringUtils.isEmpty(dateFrom.toString())) {
+            if (dateFrom == null) {
                 return cb.conjunction();
             }
             return cb.greaterThanOrEqualTo(root.get(Voucher_.CREATED_AT), dateFrom);
@@ -27,7 +27,7 @@ public class VoucherSpecification {
 
     private static Specification<Voucher> hasDateTo(Date dateTo) {
         return (root, query, cb) ->{
-            if (StringUtils.isEmpty(dateTo.toString())) {
+            if (dateTo == null) {
                 return cb.conjunction();
             }
             return cb.lessThanOrEqualTo(root.get(Voucher_.CREATED_AT), dateTo);
