@@ -88,8 +88,9 @@ public class NotificationService {
     }
 
     public List<NotificationResponse> getNotifications() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new AppException(ErrorResponse.USER_NOT_EXISTED));
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        log.info(username);
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorResponse.USER_NOT_EXISTED));
         List<Notification> notifications = notificationRepository.findByUser(user);
         return notifications.stream().map(notification -> modelMapper.map(notification, NotificationResponse.class)).toList();
     }

@@ -24,7 +24,7 @@ public class NotificationController {
 
     }
 
-    @PutMapping("/read/{id}")
+    @PutMapping("/{id}/read")
     public ResponseData<?> readNotification(@PathVariable("id") Long id) {
         notificationService.makeAsRead(id);
         return new ResponseData<>("Notification is read");
