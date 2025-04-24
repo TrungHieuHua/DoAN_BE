@@ -5,6 +5,7 @@ import com.shose.shoseshop.controller.request.ProductFilterRequest;
 import com.shose.shoseshop.controller.request.ProductRequest;
 import com.shose.shoseshop.controller.response.ProductDetailResponse;
 import com.shose.shoseshop.controller.response.ProductResponse;
+import com.shose.shoseshop.convert.ProductConvert;
 import com.shose.shoseshop.entity.*;
 import com.shose.shoseshop.repository.CategoryRepository;
 import com.shose.shoseshop.repository.ProcedureRepository;
@@ -13,6 +14,7 @@ import com.shose.shoseshop.repository.ProductRepository;
 import com.shose.shoseshop.service.ProductDetailService;
 import com.shose.shoseshop.service.ProductService;
 import com.shose.shoseshop.specification.ProductSpecification;
+import com.shose.shoseshop.util.PaginationSortingUtils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +39,8 @@ public class ProductServiceImpl implements ProductService {
     ModelMapper modelMapper;
     ProductDetailRepository productDetailRepository;
     ProductDetailService productDetailService;
+    private final ProductConvert productConvert;
+
     @Override
     @Transactional
     public void create(ProductRequest productRequest) {
@@ -57,6 +61,12 @@ public class ProductServiceImpl implements ProductService {
         return products.stream()
                 .map(product -> new ModelMapper().map(product, ProductResponse.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<ProductResponse> getByCategory(Long categoryId, Pageable pageable) {
+        Page<Product> productsPage = productRepository.findByCategoryId(categoryId, pageable);
+        return productsPage.map(product -> new ModelMapper().map(product, ProductResponse.class));
     }
 
     @Override
@@ -109,4 +119,20 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
 
     }
+
+    @Override
+    public Page<ProductResponse> getAll(int pageNum, int pageSize, String sortDir, String sortBy) {
+        Pageable pageable = PaginationSortingUtils.getPageable(pageNum, pageSize, sortDir, sortBy);
+        Page<Product> productPage = productRepository.findAll(pageable);
+        return productPage.map(product -> productConvert.convertToDTO(product));
+    }
+
+    @Override
+    public Page<ProductResponse> getProductDiscount(int pageNum, int pageSize, String sortDir, String sortBy) {
+        Pageable pageable = PaginationSortingUtils.getPageable(pageNum, pageSize, sortDir, sortBy);
+        Page<Product> productPage = productRepository.findByDiscount(pageable);
+        return productPage.map(product -> productConvert.convertToDTO(product));
+    }
+
+
 }

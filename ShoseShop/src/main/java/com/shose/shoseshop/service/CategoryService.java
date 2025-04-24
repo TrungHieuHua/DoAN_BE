@@ -12,7 +12,7 @@ public interface CategoryService {
     void create(CategoryRequest categoryRequest);
 
     Page<CategoryResponse> getAll(Pageable pageable, OrderFilterRequest request);
-
+     List<CategoryResponse> getAll1();
     void update(CategoryRequest categoryRequest);
 
     void delete(Long id);

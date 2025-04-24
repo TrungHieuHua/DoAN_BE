@@ -12,7 +12,7 @@ public interface ProductService {
     void create(ProductRequest productRequest);
 
     List<ProductResponse> getByCategory(Long categoryId);
-
+    Page<ProductResponse> getByCategory(Long categoryId,Pageable pageable);
     Page<ProductResponse> listProduct(Pageable pageable, ProductFilterRequest request);
 
     void delete(Long id);
@@ -22,4 +22,9 @@ public interface ProductService {
     ProductResponse getById(Long id);
 
     void updateStatus(Long id);
+
+    Page<ProductResponse> getAll(int pageNum, int pageSize, String sortDir, String sortBy);
+
+    Page<ProductResponse> getProductDiscount(int pageNum, int pageSize, String sortDir, String sortBy);
+
 }

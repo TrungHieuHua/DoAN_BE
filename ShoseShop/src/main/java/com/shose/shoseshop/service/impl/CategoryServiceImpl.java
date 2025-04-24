@@ -49,6 +49,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public List<CategoryResponse> getAll1() {
+        List<Category> categories = categoryRepository.findAllByOrderByNameAsc();
+        return categories.stream().map(category -> modelMapper.map(category, CategoryResponse.class)).toList();
+    }
+
+
+    @Override
     @Transactional
     public void update(CategoryRequest categoryRequest) {
         Category category = categoryRepository.findById(categoryRequest.getId()).orElseThrow(EntityNotFoundException::new);
