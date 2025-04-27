@@ -31,7 +31,7 @@ public class ProductController {
     }
 
     @PostMapping("/search")
-    public ResponseData<DataFieldProductResponse> getAll(@PageableDefault(size = 10)
+    public ResponseData<ProductResponse> getAll(@PageableDefault(size = 10)
                                        @SortDefault.SortDefaults({@SortDefault(sort = Product_.NAME, direction = Sort.Direction.ASC)})
                                        Pageable pageable,
                                                          @RequestBody(required = false) ProductFilterRequest request) {

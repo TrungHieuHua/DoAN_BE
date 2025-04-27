@@ -14,7 +14,9 @@ public interface ProductService {
 
     List<ProductResponse> getByCategory(Long categoryId);
     Page<ProductResponse> getByCategory(Long categoryId,Pageable pageable);
-    Page<DataFieldProductResponse> listProduct(Pageable pageable, ProductFilterRequest request);
+    //Page<DataFieldProductResponse> listProduct(Pageable pageable, ProductFilterRequest request);
+
+    Page<ProductResponse> listProduct(Pageable pageable, ProductFilterRequest request);
 
     void delete(Long id);
 

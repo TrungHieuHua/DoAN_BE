@@ -70,20 +70,36 @@ public class ProductServiceImpl implements ProductService {
         return productsPage.map(product -> new ModelMapper().map(product, ProductResponse.class));
     }
 
+//    @Override
+//    public Page<DataFieldProductResponse> listProduct(Pageable pageable, ProductFilterRequest request) {
+//        Specification<Product> specUser = ProductSpecification.generateFilterProducts(request);
+//        Page<Product> productPage = productRepository.findAll(specUser, pageable);
+//       // if (request != null && request.getRole() != null && request.getRole() == Role.USER) {
+//            productPage = productPage.map(product -> {
+//                product.setProductDetailResponseList(
+//                        product.getProductDetailResponseList().stream().filter(productDetail -> !productDetail.getIsDeleted())
+//                                .collect(Collectors.toList())
+//                );
+//                return product;
+//            });
+//       // }
+//        return productPage.map(product -> modelMapper.map(product, DataFieldProductResponse.class));
+//    }
+
     @Override
-    public Page<DataFieldProductResponse> listProduct(Pageable pageable, ProductFilterRequest request) {
+    public Page<ProductResponse> listProduct(Pageable pageable, ProductFilterRequest request) {
         Specification<Product> specUser = ProductSpecification.generateFilterProducts(request);
         Page<Product> productPage = productRepository.findAll(specUser, pageable);
-       // if (request != null && request.getRole() != null && request.getRole() == Role.USER) {
-            productPage = productPage.map(product -> {
-                product.setProductDetailResponseList(
-                        product.getProductDetailResponseList().stream().filter(productDetail -> !productDetail.getIsDeleted())
-                                .collect(Collectors.toList())
-                );
-                return product;
-            });
-       // }
-        return productPage.map(product -> modelMapper.map(product, DataFieldProductResponse.class));
+        // if (request != null && request.getRole() != null && request.getRole() == Role.USER) {
+        productPage = productPage.map(product -> {
+            product.setProductDetailResponseList(
+                    product.getProductDetailResponseList().stream().filter(productDetail -> !productDetail.getIsDeleted())
+                            .collect(Collectors.toList())
+            );
+            return product;
+        });
+        // }
+        return productPage.map(product -> modelMapper.map(product, ProductResponse.class));
     }
 
 
