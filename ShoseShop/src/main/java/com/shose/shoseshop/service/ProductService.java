@@ -2,6 +2,7 @@ package com.shose.shoseshop.service;
 
 import com.shose.shoseshop.controller.request.ProductFilterRequest;
 import com.shose.shoseshop.controller.request.ProductRequest;
+import com.shose.shoseshop.controller.response.DataFieldProductResponse;
 import com.shose.shoseshop.controller.response.ProductResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +14,7 @@ public interface ProductService {
 
     List<ProductResponse> getByCategory(Long categoryId);
     Page<ProductResponse> getByCategory(Long categoryId,Pageable pageable);
-    Page<ProductResponse> listProduct(Pageable pageable, ProductFilterRequest request);
+    Page<DataFieldProductResponse> listProduct(Pageable pageable, ProductFilterRequest request);
 
     void delete(Long id);
 

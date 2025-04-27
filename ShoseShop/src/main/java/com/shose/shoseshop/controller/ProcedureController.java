@@ -47,7 +47,7 @@ public class ProcedureController {
         Pageable customPageable = (page == pageable.getPageNumber() && size == pageable.getPageSize())
                 ? pageable
                 : PageRequest.of(page, size, pageable.getSort());
-        return new ResponseData<>(procedureService.getAll(customPageable, request));
+        return new ResponseData<>(procedureService.getAllPage(customPageable, request));
     }
 
     @DeleteMapping

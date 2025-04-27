@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Controller to authenticate users.
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 @Validated
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)

@@ -2,6 +2,7 @@ package com.shose.shoseshop.controller;
 
 import com.shose.shoseshop.controller.request.ProductFilterRequest;
 import com.shose.shoseshop.controller.request.ProductRequest;
+import com.shose.shoseshop.controller.response.DataFieldProductResponse;
 import com.shose.shoseshop.controller.response.ProductResponse;
 import com.shose.shoseshop.controller.response.ResponseData;
 import com.shose.shoseshop.entity.Product_;
@@ -30,10 +31,10 @@ public class ProductController {
     }
 
     @PostMapping("/search")
-    public ResponseData<ProductResponse> getAll(@PageableDefault(size = 10)
+    public ResponseData<DataFieldProductResponse> getAll(@PageableDefault(size = 10)
                                        @SortDefault.SortDefaults({@SortDefault(sort = Product_.NAME, direction = Sort.Direction.ASC)})
                                        Pageable pageable,
-                                       @RequestBody(required = false) ProductFilterRequest request) {
+                                                         @RequestBody(required = false) ProductFilterRequest request) {
         int page = (request != null && request.getPage() != null) ? request.getPage() : pageable.getPageNumber();
         int size = (request != null && request.getSize() != null) ? request.getSize() : pageable.getPageSize();
         Pageable customPageable = (page == pageable.getPageNumber() && size == pageable.getPageSize())

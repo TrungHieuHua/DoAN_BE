@@ -3,6 +3,7 @@ package com.shose.shoseshop.service.impl;
 import com.shose.shoseshop.constant.Role;
 import com.shose.shoseshop.controller.request.ProductFilterRequest;
 import com.shose.shoseshop.controller.request.ProductRequest;
+import com.shose.shoseshop.controller.response.DataFieldProductResponse;
 import com.shose.shoseshop.controller.response.ProductDetailResponse;
 import com.shose.shoseshop.controller.response.ProductResponse;
 import com.shose.shoseshop.convert.ProductConvert;
@@ -70,7 +71,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductResponse> listProduct(Pageable pageable, ProductFilterRequest request) {
+    public Page<DataFieldProductResponse> listProduct(Pageable pageable, ProductFilterRequest request) {
         Specification<Product> specUser = ProductSpecification.generateFilterProducts(request);
         Page<Product> productPage = productRepository.findAll(specUser, pageable);
        // if (request != null && request.getRole() != null && request.getRole() == Role.USER) {
@@ -82,7 +83,7 @@ public class ProductServiceImpl implements ProductService {
                 return product;
             });
        // }
-        return productPage.map(product -> modelMapper.map(product, ProductResponse.class));
+        return productPage.map(product -> modelMapper.map(product, DataFieldProductResponse.class));
     }
 
 

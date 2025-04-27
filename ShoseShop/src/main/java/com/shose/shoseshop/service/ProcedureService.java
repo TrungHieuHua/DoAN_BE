@@ -13,9 +13,10 @@ public interface ProcedureService {
 
     void update(ProcedureRequest procedureRequest);
 
-    Page<ProcedureResponse> getAll(Pageable pageable, OrderFilterRequest request);
+    Page<ProcedureResponse> getAllPage(Pageable pageable, OrderFilterRequest request);
 
     void delete(Long id);
 
     ProcedureResponse getById(Long id);
+    List<ProcedureResponse> getAll();
 }

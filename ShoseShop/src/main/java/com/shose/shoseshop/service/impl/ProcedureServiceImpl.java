@@ -46,7 +46,7 @@ public class ProcedureServiceImpl implements ProcedureService {
     }
 
     @Override
-    public Page<ProcedureResponse> getAll(Pageable pageable, OrderFilterRequest request) {
+    public Page<ProcedureResponse> getAllPage(Pageable pageable, OrderFilterRequest request) {
         Specification<Procedure> spec = ProcedureSpecification.generateFilter(request);
         Page<Procedure> procedurePage = procedureRepository.findAll(spec, pageable);
         return procedurePage.map(procedure -> modelMapper.map(procedure, ProcedureResponse.class));
@@ -73,4 +73,12 @@ public class ProcedureServiceImpl implements ProcedureService {
         Procedure procedure = procedureRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         return modelMapper.map(procedure, ProcedureResponse.class);
     }
+    @Override
+    public List<ProcedureResponse> getAll() {
+        List<Procedure> procedures = procedureRepository.findAll();
+        return procedures.stream()
+                .map(procedure -> modelMapper.map(procedure, ProcedureResponse.class))
+                .toList();
+    }
+
 }

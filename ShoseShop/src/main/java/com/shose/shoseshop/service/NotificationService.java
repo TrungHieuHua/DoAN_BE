@@ -102,8 +102,8 @@ public class NotificationService {
     }
 
     public Integer getUnreadNotificationCount() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new AppException(ErrorResponse.USER_NOT_EXISTED));
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorResponse.USER_NOT_EXISTED));
         return notificationRepository.countByUserAndIsReadFalse(user);
     }
 }

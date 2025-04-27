@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -114,6 +115,8 @@ public class EmailService {
         }
     }
 
+
+    @Async
     public void sendInvoiceWithAttachment(String to, Order order) throws MessagingException {
         String subject = "Hóa đơn đặt hàng của bạn";
         List<OrderDetail> orderDetails = order.getOrderDetails();

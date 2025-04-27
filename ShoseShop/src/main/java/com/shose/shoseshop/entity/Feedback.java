@@ -26,10 +26,6 @@ public class Feedback extends BaseEntity {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-//    @ManyToOne
-//    @JoinColumn(name = "order_id", nullable = false)
-//    private Order order;
-
     private Integer rate;
     private String description;
     private String img;

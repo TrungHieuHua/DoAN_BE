@@ -1,12 +1,11 @@
 package com.shose.shoseshop.controller;
 
 
-import com.shose.shoseshop.controller.response.ApiResponse;
-import com.shose.shoseshop.controller.response.CategoryResponse;
-import com.shose.shoseshop.controller.response.ProductResponse;
-import com.shose.shoseshop.controller.response.ResponseData;
+import com.shose.shoseshop.controller.response.*;
 import com.shose.shoseshop.repository.CategoryRepository;
+import com.shose.shoseshop.repository.ProcedureRepository;
 import com.shose.shoseshop.service.CategoryService;
+import com.shose.shoseshop.service.ProcedureService;
 import com.shose.shoseshop.service.ProductService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -28,13 +27,22 @@ public class PublicController {
 
 
     CategoryService categoryService;
+    ProcedureService procedureService;
     ProductService productService;
-    CategoryRepository categoryRepository;
 
     @GetMapping("/categories")
     public ApiResponse<List<CategoryResponse>> getAll() {
         List<CategoryResponse> result = categoryService.getAll1();
         return ApiResponse.<List<CategoryResponse>>builder()
+                .message("Get all categories success")
+                .result(result)
+                .build();
+    }
+
+    @GetMapping("/procedures")
+    public ApiResponse<List<ProcedureResponse>> getProcedures() {
+        List<ProcedureResponse> result = procedureService.getAll();
+        return ApiResponse.<List<ProcedureResponse>>builder()
                 .message("Get all categories success")
                 .result(result)
                 .build();
@@ -49,14 +57,6 @@ public class PublicController {
                 .build();
     }
 
-//    @GetMapping("/categories/child")
-//    public ApiResponse<List<CategoryResponse>> getChildCategories() {
-//        List<CategoryResponse> result = categoryService.fetchChildCategory();
-//        return ApiResponse.<List<CategoryResponse>>builder()
-//                .message("Get all child categories success")
-//                .result(result)
-//                .build();
-//    }
 
     @GetMapping("/categories/{id}")
     public ApiResponse<CategoryResponse> getCategoryById(@PathVariable("id") Long id) {
@@ -106,57 +106,4 @@ public class PublicController {
                 .build();
     }
 
-
-
-
-//    @GetMapping("/search")
-//    public ApiResponse<Page<ProductResponse>> searchProduct(
-//            @RequestParam(value = "query", required = true) String query,
-//            @RequestParam(value = "pageNum", defaultValue = "0") int pageNum,
-//            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
-//            @RequestParam(value = "sortDir", defaultValue = "asc") String sortDir,
-//            @RequestParam(value = "sortBy", defaultValue = "name") String sortBy,
-//            @RequestParam(value = "rating", defaultValue = "0") Integer rating,
-//            @RequestParam(value = "price", defaultValue = "0") Double price,
-//            @RequestParam(value = "discount", defaultValue = "false") Boolean discount) {
-//        Page<ProductResponse> result = productService.getProductByKey(query, pageNum, pageSize, sortDir, sortBy, rating, price, discount);
-//        return ApiResponse.<Page<ProductResponse>>builder()
-//                .message("Search product success")
-//                .result(result)
-//                .build();
-//    }
-
-    @GetMapping("/product-discount")
-    public ApiResponse<Page<ProductResponse>> findByDiscount(
-            @RequestParam(value = "pageNum", defaultValue = "0") int pageNum,
-            @RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
-            @RequestParam(value = "sortDir", defaultValue = "asc") String sortDir,
-            @RequestParam(value = "sortBy", defaultValue = "name") String sortBy) {
-        Page<ProductResponse> result = productService.getProductDiscount(pageNum, pageSize, sortDir, sortBy);
-        return ApiResponse.<Page<ProductResponse>>builder()
-                .message("Search product success")
-                .result(result)
-                .build();
-    }
-
-    //    @GetMapping("/subCategory")
-//    public ApiResponse<List<Category>> fetchSubCategories() {
-//        List<Category> result = categoryRepository.findBySubCategories();
-//        return ApiResponse.<List<Category>>builder()
-//                .message("Fetch parent categories success")
-//                .result(result)
-//                .build();
-//    }
-//    @GetMapping("/top-selling")
-//    public ApiResponse<List<ProductSaleDTO>> getTopSellingProductsByCategoryAndDate(
-//            @RequestParam(value = "categoryId", required = false) Long categoryId,
-//            @RequestParam(value = "startDate", required = false) String startDate,
-//            @RequestParam(value = "endDate", required = false) String endDate,
-//            @RequestParam(value = "limit", defaultValue = "5") int limit) {
-//        List<ProductSaleDTO> result = productService.getTopSellingProductsByCategoryAndDate(categoryId, startDate, endDate, limit);
-//        return ApiResponse.<List<ProductSaleDTO>>builder()
-//                .message("Get top selling products success")
-//                .result(result)
-//                .build();
-//    }
 }
