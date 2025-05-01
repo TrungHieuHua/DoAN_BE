@@ -21,13 +21,12 @@ public class NotificationController {
     public ResponseData<List<NotificationResponse>> getNotifications() {
         List<NotificationResponse> notifications = notificationService.getNotifications();
         return new ResponseData<>("Get notifications successfully", notifications);
-
     }
 
     @PutMapping("/{id}/read")
     public ResponseData<?> readNotification(@PathVariable("id") Long id) {
         notificationService.makeAsRead(id);
-        return new ResponseData<>("Notification is read");
+        return new ResponseData<>(id);
     }
 
     @GetMapping("/unread-count")

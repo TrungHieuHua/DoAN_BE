@@ -34,20 +34,21 @@ public class OrderController {
 
     @PostMapping
     public ResponseData<Long> create(@Valid @RequestBody OrderRequest orderRequest) {
-        return new ResponseData<>(HttpStatus.CREATED,"Bạn đã đặt hàng thành công!", orderService.create(orderRequest));
+        return new ResponseData<>(HttpStatus.CREATED, "Bạn đã đặt hàng thành công!", orderService.create(orderRequest));
     }
 
     @PutMapping
-    public ResponseData<Void> updateStatus(@RequestParam("id") Long id, @RequestParam("status") OrderStatus status, @RequestParam("paymentStatus") PaymentStatus paymentStatus) {
+    public ResponseData<Long> updateStatus(@RequestParam("id") Long id, @RequestParam("status") OrderStatus status, @RequestParam("paymentStatus")
+        PaymentStatus paymentStatus) {
         orderService.update(id, status, paymentStatus);
-        return new ResponseData<>(HttpStatus.CREATED, "Trạng thái đơn hàng đã được cập nhật!");
+        return new ResponseData<>(HttpStatus.CREATED, "Trạng thái đơn hàng đã được cập nhật!", id);
     }
 
     @PostMapping("/search")
     public ResponseData<OrderResponse> getAll(@PageableDefault(size = 10)
-                                             @SortDefault.SortDefaults({@SortDefault(sort = Order_.CREATED_AT, direction = Sort.Direction.DESC)})
-                                             Pageable pageable,
-                                             @RequestBody(required = false) OrderFilterRequest request) {
+                                              @SortDefault.SortDefaults({@SortDefault(sort = Order_.CREATED_AT, direction = Sort.Direction.DESC)})
+                                              Pageable pageable,
+                                              @RequestBody(required = false) OrderFilterRequest request) {
         int page = (request != null && request.getPage() != null) ? request.getPage() : pageable.getPageNumber();
         int size = (request != null && request.getSize() != null) ? request.getSize() : pageable.getPageSize();
         Pageable customPageable = (page == pageable.getPageNumber() && size == pageable.getPageSize())
@@ -81,7 +82,7 @@ public class OrderController {
     @DeleteMapping("/orders/{id}/cancel")
     public ResponseData<Void> cancelOrder(@PathVariable Long id, @RequestParam String reason) {
         orderService.cancelOrder(id, reason);
-        return new ResponseData<>(HttpStatus.NO_CONTENT,"Đơn hàng đã được hủy!");
+        return new ResponseData<>(HttpStatus.NO_CONTENT, "Đơn hàng đã được hủy!");
     }
 
     @GetMapping("/{orderId}/download")

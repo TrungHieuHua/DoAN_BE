@@ -38,6 +38,7 @@ public class ResponseData<T> {
         this.message = message;
     }
 
+
     public ResponseData(int statusCode, String message, T data) {
         this.statusCode = statusCode;
         this.message = message;
