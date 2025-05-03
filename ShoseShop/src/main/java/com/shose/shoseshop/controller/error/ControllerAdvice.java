@@ -1,5 +1,6 @@
 package com.shose.shoseshop.controller.error;
 import com.shose.shoseshop.controller.response.ResponseData;
+import com.shose.shoseshop.exception.AppException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -71,5 +72,13 @@ public class ControllerAdvice {
     public ResponseData<String> handleTypeMismatchException(MethodArgumentTypeMismatchException ex) {
         log.debug("------handle(MethodArgumentTypeMismatchException {}", ex.getMessage());
         return new ResponseData<>(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(AppException.class)
+    public ResponseData<String> handleAppException(AppException ex) {
+        log.debug("------handleEntitiesNotFoundException {}", ex.getMessage());
+        return new ResponseData<>(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 }

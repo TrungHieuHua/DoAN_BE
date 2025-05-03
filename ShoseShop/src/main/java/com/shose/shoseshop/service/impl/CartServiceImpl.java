@@ -2,6 +2,8 @@ package com.shose.shoseshop.service.impl;
 
 import com.shose.shoseshop.controller.response.CartResponse;
 import com.shose.shoseshop.entity.*;
+import com.shose.shoseshop.exception.AppException;
+import com.shose.shoseshop.exception.ErrorResponse;
 import com.shose.shoseshop.repository.*;
 import com.shose.shoseshop.service.CartService;
 import jakarta.persistence.EntityNotFoundException;
@@ -38,6 +40,12 @@ public class CartServiceImpl implements CartService {
         User user = userRepository.findByUsername(loginUser.getUsername()).orElseThrow(EntityNotFoundException::new);
         Cart cart = cartRepository.findByUser_Id(user.getId()).orElseThrow(EntityNotFoundException::new);
         ProductDetail productDetail = productDetailRepository.findById(productDetailId).orElseThrow(EntityNotFoundException::new);
+
+        // Kiểm tra số lượng yêu cầu có hợp lệ không
+        if (quantity <= 0) {
+            throw new AppException(ErrorResponse.OUT_OF_STOCK);
+        }
+
         List<CartDetail> cartDetails = cart.getCartDetails();
         Optional<CartDetail> existingCartDetail = cartDetails.stream()
                 .filter(cd -> cd.getProductDetail().getId().equals(productDetailId))
@@ -45,17 +53,27 @@ public class CartServiceImpl implements CartService {
 
         if (existingCartDetail.isPresent()) {
             CartDetail cartDetail = existingCartDetail.get();
-            if (quantity == 1) {
-                if (actionType == 1) {
-                    cartDetail.setQuantity(quantity);
-                } else {
-                    cartDetail.setQuantity(quantity + cartDetail.getQuantity());
-                }
+            long newQuantity;
+
+            if (quantity == 1 && actionType != null && actionType == 1) {
+                newQuantity = 1;
+            } else if (quantity == 1) {
+                newQuantity = cartDetail.getQuantity() + 1;
             } else {
-                cartDetail.setQuantity(quantity);
+                newQuantity = quantity;
             }
+
+            if (newQuantity > productDetail.getQuantity()) {
+                throw new AppException(ErrorResponse.OUT_OF_STOCK);
+            }
+
+            cartDetail.setQuantity(newQuantity);
             cartDetailRepository.save(cartDetail);
         } else {
+            if (quantity > productDetail.getQuantity()) {
+                throw new AppException(ErrorResponse.OUT_OF_STOCK);
+            }
+
             CartDetail newCartDetail = new CartDetail();
             newCartDetail.setProductDetail(productDetail);
             newCartDetail.setQuantity(quantity);
@@ -64,6 +82,7 @@ public class CartServiceImpl implements CartService {
             cartDetailRepository.save(newCartDetail);
         }
     }
+
 
 
     @Override
