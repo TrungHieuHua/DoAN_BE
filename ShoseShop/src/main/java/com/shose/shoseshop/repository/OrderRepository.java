@@ -39,4 +39,8 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
                                                              @Param("status") OrderStatus status);
 
     List<Order> findByUser_Id(Long id);
+
+    Double countByUser_Id(Long userId);
+
+    Order findTopByUser_IdOrderByCreatedAtDesc(Long userId);
 }

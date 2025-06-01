@@ -145,11 +145,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductResponse> getProductDiscount(int pageNum, int pageSize, String sortDir, String sortBy) {
-        Pageable pageable = PaginationSortingUtils.getPageable(pageNum, pageSize, sortDir, sortBy);
-        Page<Product> productPage = productRepository.findByDiscount(pageable);
-        return productPage.map(product -> productConvert.convertToDTO(product));
+    public List<ProductResponse> getNewProduct() {
+        List<Product> products = productRepository.findNewProduct();
+        return products.stream()
+                .map(product -> productConvert.convertToDTO(product))
+                .collect(Collectors.toList());
     }
+
 
 
 }

@@ -8,6 +8,7 @@ import com.shose.shoseshop.controller.response.UserResponse;
 import com.shose.shoseshop.entity.OTP;
 import com.shose.shoseshop.entity.Product;
 import com.shose.shoseshop.entity.User;
+import com.shose.shoseshop.kmeans.KMeanService;
 import com.shose.shoseshop.repository.OTPRepository;
 import com.shose.shoseshop.repository.UserRepository;
 import com.shose.shoseshop.service.CartService;
@@ -44,6 +45,7 @@ public class UserServiceImpl implements UserService {
     OTPService otpService;
     ModelMapper modelMapper;
     OTPRepository otpRepository;
+    KMeanService kmeanService;
 
     @Override
     public void create(UserRequest userRequest) {
@@ -51,7 +53,7 @@ public class UserServiceImpl implements UserService {
         User user = new ModelMapper().map(userRequest, User.class);
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userRepository.save(user);
-
+        kmeanService.genCluster();
         //create cart
         cartService.create(user);
     }

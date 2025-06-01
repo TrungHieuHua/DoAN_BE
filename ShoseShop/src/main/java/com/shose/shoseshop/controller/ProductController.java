@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -64,6 +65,11 @@ public class ProductController {
     public ResponseData<Void> updateStatus(@RequestBody ProductRequest productRequest) {
         productService.updateStatus(productRequest.getId());
         return new ResponseData<>(HttpStatus.CREATED, "Khôi phục sản phẩm thành công!");
+    }
+
+    @GetMapping("/newproduct")
+    public ResponseData<List<ProductResponse>> getDiscountProduct() {
+        return new ResponseData<>(productService.getNewProduct());
     }
 }
 

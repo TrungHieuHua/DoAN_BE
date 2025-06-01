@@ -28,6 +28,6 @@ public interface ProductService {
 
     Page<ProductResponse> getAll(int pageNum, int pageSize, String sortDir, String sortBy);
 
-    Page<ProductResponse> getProductDiscount(int pageNum, int pageSize, String sortDir, String sortBy);
+    List<ProductResponse> getNewProduct();
 
 }
