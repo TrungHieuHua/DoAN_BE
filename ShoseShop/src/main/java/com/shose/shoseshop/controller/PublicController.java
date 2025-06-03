@@ -1,7 +1,10 @@
 package com.shose.shoseshop.controller;
 
 
+import com.shose.shoseshop.controller.request.ProductFilterRequest;
 import com.shose.shoseshop.controller.response.*;
+import com.shose.shoseshop.entity.Product_;
+import com.shose.shoseshop.kmeans.UserClusterService;
 import com.shose.shoseshop.repository.CategoryRepository;
 import com.shose.shoseshop.repository.ProcedureRepository;
 import com.shose.shoseshop.service.CategoryService;
@@ -14,6 +17,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +34,7 @@ public class PublicController {
     CategoryService categoryService;
     ProcedureService procedureService;
     ProductService productService;
+    UserClusterService userClusterService;
 
     @GetMapping("/categories")
     public ApiResponse<List<CategoryResponse>> getAll() {
@@ -104,6 +110,11 @@ public class PublicController {
                 .message("Get product by category success")
                 .result(result)
                 .build();
+    }
+
+    @GetMapping("/newproduct")
+    public ResponseData<List<ProductResponse>> getNewProduct() {
+        return new ResponseData<>(productService.getNewProduct());
     }
 
 }

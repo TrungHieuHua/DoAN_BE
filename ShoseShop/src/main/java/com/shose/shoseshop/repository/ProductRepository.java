@@ -17,7 +17,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
     Page<Product> findByCategoryId(Long categoryId, Pageable pageable);
 
-    @Query(value = "SELECT * FROM product ORDER BY created_at DESC LIMIT 4", nativeQuery = true)
+    @Query(value = "SELECT * FROM product ORDER BY created_at DESC LIMIT 6", nativeQuery = true)
     List<Product> findNewProduct();
 
 }

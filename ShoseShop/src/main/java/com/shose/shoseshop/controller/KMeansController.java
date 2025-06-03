@@ -38,15 +38,7 @@ public class KMeansController {
     }
 
     @GetMapping("/productCluster")
-    public ResponseData<?> getProductCluster(@PageableDefault(size = 10)
-                                                 @SortDefault.SortDefaults({@SortDefault(sort = Product_.NAME, direction = Sort.Direction.ASC)})
-                                                 Pageable pageable,
-                                             @RequestBody(required = false) ProductFilterRequest request) {
-        int page = (request != null && request.getPage() != null) ? request.getPage() : pageable.getPageNumber();
-        int size = (request != null && request.getSize() != null) ? request.getSize() : pageable.getPageSize();
-        Pageable customPageable = (page == pageable.getPageNumber() && size == pageable.getPageSize())
-                ? pageable
-                : PageRequest.of(page, size, pageable.getSort());
+    public ResponseData<?> getProductCluster() {
         List<ProductResponse> list = userClusterService.getProductCluster();
         return new ResponseData<>(list);
     }

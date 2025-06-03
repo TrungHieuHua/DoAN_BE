@@ -68,7 +68,7 @@ public class ProductController {
     }
 
     @GetMapping("/newproduct")
-    public ResponseData<List<ProductResponse>> getDiscountProduct() {
+    public ResponseData<List<ProductResponse>> getNewProduct() {
         return new ResponseData<>(productService.getNewProduct());
     }
 }
