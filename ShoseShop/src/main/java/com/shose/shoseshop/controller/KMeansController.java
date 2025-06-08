@@ -12,17 +12,14 @@ import com.shose.shoseshop.kmeans.UserClusterService;
 import com.shose.shoseshop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1/kmeans")
 @FieldDefaults(makeFinal = true, level = lombok.AccessLevel.PRIVATE)
@@ -37,7 +34,7 @@ public class KMeansController {
         return new ResponseData<>(segment);
     }
 
-    @GetMapping("/productCluster")
+    @GetMapping()
     public ResponseData<?> getProductCluster() {
         List<ProductResponse> list = userClusterService.getProductCluster();
         return new ResponseData<>(list);
